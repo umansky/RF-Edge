@@ -41,12 +41,12 @@ com.nxcore[0,1]=6 #3
 
 #-Boundary conditions
 bbb.isnicore[0]=1 #-same density at all core points
-bbb.ncore=1.1e19  #-density on core boundary
+bbb.ncore=1.0e20  #-density on core boundary
 bbb.iflcore=1     #if=1, specify core power
 bbb.tcoree=25.0   #-used if iflcore=0
 bbb.tcorei=25.0   #-used if iflcore=0
-bbb.pcoree = 2.5e4  #-used if iflcore=1        
-bbb.pcorei = 2.5e4  #-used if iflcore=1
+bbb.pcoree = 2.5e5  #-used if iflcore=1        
+bbb.pcorei = 2.5e5  #-used if iflcore=1
 
 bbb.recycp=0.98  #-recycling coef at plates if ndatlb,rb=0
 bbb.albdsi=0.99  #-albedos at inner gas source locations
