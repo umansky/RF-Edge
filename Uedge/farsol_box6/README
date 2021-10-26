@@ -1,0 +1,3 @@
+python
+from runcase import *
+exec(open("./run2steady.py").read())
