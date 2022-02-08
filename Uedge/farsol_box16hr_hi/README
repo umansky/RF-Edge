@@ -1,0 +1,7 @@
+python
+from runcase import *
+exec(open("./run2steady.py").read())
+
+###-to import Vorpal Fparallel data and map it to UEDGE grid, do
+UEDGE>>> exec(open("vorpal2uedge.py").read())
+
