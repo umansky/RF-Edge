@@ -1,0 +1,8 @@
+Case with relatively high plasma density near outer wall (~1.5e16
+m-3), and using local grid refinement to optimize the resolution near
+(0.45,-0.40) close to the RF antenna in Vorpal
+
+
+
+python -i case_mod3.02.py 
+exec(open("make_plots.py").read())
