@@ -6,3 +6,10 @@ m-3), and using local grid refinement to optimize the resolution near
 
 python -i case_mod3.02.py 
 exec(open("make_plots.py").read())
+
+##-to import PM-forces from Vorpal, execute file:
+exec(open("import_vorpal_data.py").read())
+
+Then execute file:
+exec(open("run_pmforce_scan.py").read())
+
