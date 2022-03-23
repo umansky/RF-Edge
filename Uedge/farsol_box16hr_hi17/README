@@ -1,0 +1,8 @@
+==The case without local grid refinement near the antenna==
+python
+from runcase import *
+exec(open("./run2steady.py").read())
+
+
+==The case with local grid refinement near the antenna==
+python -i case16hr_hi17r1.py
