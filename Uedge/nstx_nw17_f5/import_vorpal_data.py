@@ -1,0 +1,20 @@
+##-insert directory ../pytools in the Python path
+cwd=os.getcwd()
+os.chdir('./../pytools')
+pwd_pytools=os.getcwd()
+sys.path.insert(1, pwd_pytools)
+os.chdir(cwd)
+
+
+#-import scripts from ../pytools
+from import_vorpal import *
+from filter2d import *
+
+
+vfile="vorpal17.0.h5"
+xgrid,ygrid,pondomfpare_use,pondomfpari_use=ImportVorpal(vfile=vfile)
+
+mp.plotvar(pondomfpare_use, title="Electron Fpar from Vorpal (raw)", \
+           iso=False, vmax=3, vmin=-3, label="N/m^3")
+mp.plotvar(pondomfpari_use, title="Ion Fpar from Vorpal (raw)", \
+           iso=False, vmax=1, vmin=-1, label="N/m^3")
