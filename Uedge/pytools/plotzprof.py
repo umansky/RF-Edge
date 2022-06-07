@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from uedge import bbb, com, api
 
 
-def plotzprof(var, title="UEDGE data", iy=com.ny,
+def plotzprof(var, title="UEDGE data", label="", iy=com.ny,
               lines=True, dots=False, xlim=None, ylim=None, xlog=False, ylog=False):
     # Plotting vertical profiles of UEDGE data
     #
@@ -33,6 +33,7 @@ def plotzprof(var, title="UEDGE data", iy=com.ny,
         plt.xscale('log')
         
     plt.xlabel('Z [m]')
+    plt.title(label, loc='right')
     fig.suptitle(title)
     plt.grid(True)
  
