@@ -2,9 +2,9 @@ exec(open("uedge17.0.py").read())
 mu.paws("Base case set")
 
 
-vfile="vorpal17.0.h5"
-elFrac=0.10 #-for this case, scaling NOT applied in Vorpal, doing it in import_vorpal()
-ionFrac=0.10
+vfile="vorpal17.1.h5"
+elFrac=1.0 #-for this case, scaling is already applied in Vorpal
+ionFrac=1.0
 exec(open("import_vorpal_data.py").read())
 
 
@@ -21,7 +21,7 @@ print("Using filtering and scaling (e/i):", elFrac, ionFrac)
 mu.paws("Vorpal data imported")
 
 
-fname="uedge17.1.h5"
+fname="uedge17.2.h5"
 hdf5_restore(fname)
 bbb.dtreal=1e20
 bbb.exmain()
