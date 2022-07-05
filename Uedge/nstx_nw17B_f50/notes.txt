@@ -1,0 +1,5 @@
+In this subdirectory we use Vorpal data at 0.50 of the nominal power 1 MW/m^2.
+
+Similar to nstx_nw17_f20 but interpolated to UEDGE grid with a new
+algorithm based on volume integration, which provides more smooth
+interpolation.

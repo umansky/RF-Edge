@@ -1,0 +1,2 @@
+python -i uedge17.0.py #-restore the base case (no Vorpal)
+python -i uedge17.1.py #-restore the next case (w/ Vorpal fields, filtered and scaled)
