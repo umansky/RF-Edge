@@ -1,0 +1,719 @@
+################################################################
+#
+# @brief   This macro file manages the geometry creation process,
+# maintaining the results in the "REGIONBLOCKS" variable.
+#
+# The intial state of the geometry is void everywhere.
+#
+# @version $Id: geometry.mac 36295 2020-07-28 13:42:32Z smillie $
+#
+# Copyright &copy; 2010-2020, Tech-X Corporation, Boulder, CO.
+# All rights reserved.
+#
+################################################################
+
+$ REGIONBLOCKS = ""
+
+# ================================================================
+# User-Level Macros, e.g., the geometry machine-shop
+# ================================================================
+
+########################
+# default versions ###
+########################
+#
+# ___Macros___
+#
+# fillGeoExpression(myRegionName,shapeExpression)
+# voidGeoExpression(myRegionName,shapeExpression)
+#
+# fillGeoPython(myRegionName,pythonFunction)
+# voidGeoPython(myRegionName,pythonFunction)
+#
+# fillGeoCad(myRegionName,cadFileName)
+# voidGeoCad(myRegionName,cadFileName)
+#
+# Notes:  Shape expression and python function should be zero outside
+#           shape and unity inside shape.
+#         CAD file should be in STL format.
+
+<macro fillGeoExpression(myRegionName,shapeExpression)>
+  $ REGIONBLOCKS = fillGeoExpressionRegion(REGIONBLOCKS,myRegionName,shapeExpression,false)
+  $global REGIONBLOCKS
+</macro>
+
+<macro voidGeoExpression(myRegionName,shapeExpression)>
+  $ REGIONBLOCKS = voidGeoExpressionRegion(REGIONBLOCKS,myRegionName,shapeExpression,false)
+  $global REGIONBLOCKS
+</macro>
+
+<macro fillGeoPython(myRegionName,pythonFunction)>
+  $ REGIONBLOCKS = fillGeoPythonRegion(REGIONBLOCKS,myRegionName,pythonFunction,false)
+  $global REGIONBLOCKS
+</macro>
+
+<macro voidGeoPython(myRegionName,pythonFunction)>
+  $ REGIONBLOCKS = voidGeoPythonRegion(REGIONBLOCKS,myRegionName,pythonFunction,false)
+  $global REGIONBLOCKS
+</macro>
+
+<macro fillGeoCad(myRegionName,cadFileName)>
+  $ REGIONBLOCKS = fillGeoCadRegion(REGIONBLOCKS,myRegionName,cadFileName,false,1.0,[0.0 0.0 0.0])
+  $global REGIONBLOCKS
+</macro>
+
+<macro voidGeoCad(myRegionName,cadFileName)>
+  $ REGIONBLOCKS = voidGeoCadRegion(REGIONBLOCKS,myRegionName,cadFileName,false,1.0,[0.0 0.0 0.0])
+  $global REGIONBLOCKS
+</macro>
+
+##################################
+# full capabilities versions ###
+##################################
+#
+# ___Macros___
+#
+# fillGeoExpression(myRegionName,shapeExpression,shapeComplement)
+# voidGeoExpression(myRegionName,shapeExpression,shapeComplement)
+#
+# fillGeoPython(myRegionName,pythonFunction,shapeComplement)
+# voidGeoPython(myRegionName,pythonFunction,shapeComplement)
+#
+# fillGeoCad(myRegionName,cadFileName,shapeComplement,scaleCadCoords,translateCadCoords)
+# voidGeoCad(myRegionName,cadFileName,shapeComplement,scaleCadCoords,translateCadCoords)
+#
+# Note default values of previous macros were:
+#    shapeComplement = false
+#    scaleCadCoords = 1.0
+#    translateCadCoords = [0.0 0.0 0.0]
+
+# @brief Macro that fills volume specified in the shape expression
+# @param myRegionName Name of the geometry/gridBoundary
+# @param shapeExpression Expression created from shape primitives
+# @param shapeComplement If True inverts selection
+<macro fillGeoExpression(myRegionName,shapeExpression,shapeComplement)>
+  $ REGIONBLOCKS = fillGeoExpressionRegion(REGIONBLOCKS,myRegionName,shapeExpression,shapeComplement)
+  $global REGIONBLOCKS
+</macro>
+
+<macro voidGeoExpression(myRegionName,shapeExpression,shapeComplement)>
+  $ REGIONBLOCKS = voidGeoExpressionRegion(REGIONBLOCKS,myRegionName,shapeExpression,shapeComplement)
+  $global REGIONBLOCKS
+</macro>
+
+<macro fillGeoPython(myRegionName,pythonFunction,shapeComplement)>
+  $ REGIONBLOCKS = fillGeoPythonRegion(REGIONBLOCKS,myRegionName,pythonFunction,shapeComplement)
+  $global REGIONBLOCKS
+</macro>
+
+<macro voidGeoPython(myRegionName,pythonFunction,shapeComplement)>
+  $ REGIONBLOCKS = voidGeoPythonRegion(REGIONBLOCKS,myRegionName,pythonFunction,shapeComplement)
+  $global REGIONBLOCKS
+</macro>
+
+<macro fillGeoCad(myRegionName,cadFileName,shapeComplement,scaleCadCoords,translateCadCoords)>
+  $ REGIONBLOCKS = fillGeoCadRegion(REGIONBLOCKS,myRegionName,cadFileName,shapeComplement,scaleCadCoords,translateCadCoords)
+  $global REGIONBLOCKS
+</macro>
+
+<macro voidGeoCad(myRegionName,cadFileName,shapeComplement,scaleCadCoords,translateCadCoords)>
+  $ REGIONBLOCKS = voidGeoCadRegion(REGIONBLOCKS,myRegionName,cadFileName,shapeComplement,scaleCadCoords,translateCadCoords)
+  $global REGIONBLOCKS
+</macro>
+
+############################
+# resetting and saving ###
+############################
+#
+# ___Macros___
+#
+# resetGeoToVoid()
+# resetGeoToFill(myRegionName)
+#
+# saveGeoToGridBoundary(gridBoundaryName,deyMittraFraction)
+
+# @brief Sets simulation environment to void everywhere
+<macro resetGeoToVoid()>
+  $ REGIONBLOCKS = ""
+  $global REGIONBLOCKS
+</macro>
+# @brief resets simulation environment to full everywhere
+# @param myRegionName Region to be filled
+<macro resetGeoToFill(myRegionName)>
+  $ REGIONBLOCKS = ""
+  $ REGIONBLOCKS = fillGeoExpressionRegion(REGIONBLOCKS,myRegionName,1.0,false)
+  $global REGIONBLOCKS
+</macro>
+
+# @param gridBoundaryName Name to be given to grid boundary, same as myRegionName
+# @param deyMittraFraction Value of Dey-Mittra fraction of the simulation
+<macro saveGeoToGridBoundary(gridBoundaryName, deyMittraFraction)>
+  <GridBoundary gridBoundaryName>
+    kind = rgnGridBndry
+    dmFrac = deyMittraFraction
+    calculateVolume = true
+    REGIONBLOCKS
+  </GridBoundary>
+</macro>
+
+# @brief saves specified geometry to grid boundary
+# @param gridBoundaryName Name to be given to grid boundary, same as myRegionName
+# @param deyMittraFraction Value of Dey-Mittra fraction of the simulation
+# @param calcVol whether or not to calculate volume
+<macro saveGeoToGridBoundary(gridBoundaryName, deyMittraFraction, calcVol)>
+  <GridBoundary gridBoundaryName>
+    kind = rgnGridBndry
+    dmFrac = deyMittraFraction
+    calculateVolume = calcVol
+    REGIONBLOCKS
+  </GridBoundary>
+</macro>
+
+# ================================================================
+# Useful 2D Coordinate Transformations
+# ================================================================
+
+# 2D cartesian to radiusius
+<function geoRho(x,y)>
+  sqrt(x^2 + y^2)
+</function>
+
+# 2D cartesian to angle
+<function geoPhi(x,y)>
+  atan2(y,x)
+</function>
+
+# ================================================================
+# Common 1D shape expressions, =0 outside shape, =1 inside shape
+# ================================================================
+
+# Step Up & Down
+# @brief Step function with specified start and end points
+# @param x direction step is taken in (x, y, or z)
+# @param xlo location (m) at which step begins
+# @param xhi location (m) at which step ends
+<function geoStep(x,xlo,xhi)>
+  H(x-xlo)*H(xhi-x)
+</function>
+
+# ================================================================
+# Common 2D shape expressions, =0 outside shape, =1 inside shape
+# ================================================================
+
+# ___Circle___
+# with center at the origin
+<function geoCircle(x,y,radius)>
+  H(radius^2-x^2-y^2)
+</function>
+
+# ___Circle Complement___
+# with center at the origin
+<function geoHole(x,y,radius)>
+  H(x^2+y^2-radius^2)
+</function>
+
+# ___Ellipse___
+# with center at the origin:  (x/a)^2 + (y/b)^2 < 1
+<function geoEllipse(x,y,a,b)>
+  geoCircle(b*x,a*y,a*b)
+</function>
+
+# ___Parabola___
+# with symmetry axis aligned to x-direction, and y-cut plane at the origin, and vertex at positive-x
+<function geoParabolaX(x,y,xVertex,yHalfHeight)>
+  H(x)*H(xVertex*yHalfHeight^2-x*yHalfHeight^2-xVertex*y^2)
+</function>
+
+# ___Rectangle___
+# with sides aligned to coordinate directions, and low corner at origin
+<function geoRectangle(x,y,lx,ly)>
+  geoStep(x,0,lx)*geoStep(y,0,ly)
+</function>
+
+# ___Corner-Rounded Rectangle___
+# with sides aligned to coordinate directions, and low corner at origin
+<function geoRndRectangle(x,y,lx,ly,round_radius)>
+  geoCircle(max(0.0,abs(x-0.5*lx)-max(0.0,0.5*lx-round_radius)), \
+            max(0.0,abs(y-0.5*ly)-max(0.0,0.5*ly-round_radius)), \
+            round_radius)
+</function>
+
+# ___Triangle___
+# points must be sequenced in counter-clockwise order around triangle (right-hand-rule)
+<function geoTriangle(x,y,xa,ya,xb,yb,xc,yc)>
+  H(min(min(((x-xa)*(yb-ya)-(y-ya)*(xb-xa))*((xc-xa)*(yb-ya)-(yc-ya)*(xb-xa)),  \
+            ((x-xb)*(yc-yb)-(y-yb)*(xc-xb))*((xa-xb)*(yc-yb)-(ya-yb)*(xc-xb))), \
+            ((x-xc)*(ya-yc)-(y-yc)*(xa-xc))*((xb-xc)*(ya-yc)-(yb-yc)*(xa-xc))))
+</function>
+
+# ___Quadrilateral___
+# points must be sequenced in counter-clockwise order around quadrilateral (right-hand-rule)
+<function geoQuadrilateral(x,y,xa,ya,xb,yb,xc,yc,xd,yd)>
+  H(min(min(min( ((x-xa)*(yb-ya)-(y-ya)*(xb-xa))*((xd-xa)*(yb-ya)-(yd-ya)*(xb-xa)),   \
+                 ((x-xb)*(yc-yb)-(y-yb)*(xc-xb))*((xa-xb)*(yc-yb)-(ya-yb)*(xc-xb)) ), \
+                 ((x-xc)*(yd-yc)-(y-yc)*(xd-xc))*((xb-xc)*(yd-yc)-(yb-yc)*(xd-xc)) ), \
+                 ((x-xd)*(ya-yd)-(y-yd)*(xa-xd))*((xc-xd)*(ya-yd)-(yc-yd)*(xa-xd)) ))
+</function>
+
+# ___Pentagon___
+# points must be sequenced in counter-clockwise order around pentagon (right-hand-rule)
+<function geoPentagon(x,y,xa,ya,xb,yb,xc,yc,xd,yd,xe,ye)>
+  H(min(min(min(min(((x-xa)*(yb-ya)-(y-ya)*(xb-xa))*((xe-xa)*(yb-ya)-(ye-ya)*(xb-xa)),  \
+                    ((x-xb)*(yc-yb)-(y-yb)*(xc-xb))*((xa-xb)*(yc-yb)-(ya-yb)*(xc-xb))), \
+                    ((x-xc)*(yd-yc)-(y-yc)*(xd-xc))*((xb-xc)*(yd-yc)-(yb-yc)*(xd-xc))), \
+                    ((x-xd)*(ye-yd)-(y-yd)*(xe-xd))*((xc-xd)*(ye-yd)-(yc-yd)*(xe-xd))), \
+                    ((x-xe)*(ya-ye)-(y-ye)*(xa-xe))*((xd-xe)*(ya-ye)-(yd-ye)*(xa-xe))))
+</function>
+
+# ================================================================
+# Common 3D shape expressions, =0 outside shape, =1 inside shape
+# ================================================================
+
+# ___Sphere___
+# @descripton Sphere with center at the origin
+# @param x X-variable, can offset to adjust location of the sphere
+# @param y y-variable, can offset to adjust location of the sphere
+# @param z Z-variable, can offset to adjust location of the sphere
+# @param radius - Radius of the sphere
+<function geoSphere(x,y,z,radius)>
+  H(radius^2 - x^2 - y^2 - z^2)
+</function>
+
+# ___Ellipsoid___
+# @brief An ellipsoid with it's center at the origin:  (x/a)^2 + (y/b)^2 + (z/c)^2 < 1
+# @param x X-variable, can offset to adjust location of the ellipsoid
+# @param y y-variable, can offset to adjust location of the ellipsoid
+# @param z Z-variable, can offset to adjust location of the ellipsoid
+# @param a eccentricity of the ellipsoid in the x-direction
+# @param b eccentricity of the ellipsoid in the y-direction
+# @param c eccentricity of the ellipsoid in the z-direction
+<function geoEllipsoid(x,y,z,a,b,c)>
+  geoSphere(b*c*x,c*a*y,a*b*z,a*b*c)
+</function>
+
+# __Hemisphere__
+# @brief A hemisphere with it's axis aligned to x-direction, and low axis point at origin, and high axis point at positive-x
+# @param x X-variable, can offset to adjust location of the hemisphere
+# @param y y-variable, can offset to adjust location of the hemisphere
+# @param z Z-variable, can offset to adjust location of the hemisphere
+# @param radius - Radius of the hemisphere
+<function geoHemiSphereXP(x,y,z,radius)>
+  H(x)*geoSphere(x,y,z,radius)
+</function>
+
+# __Hemiellipsoid__
+# @brief An elleptic hemisphere with it's axis aligned to x-direction, and low axis point at origin, and high axis point at positive-X
+# @param x X-variable, can offset to adjust location of the hemiellipsoid
+# @param y y-variable, can offset to adjust location of the hemiellipsoid
+# @param z Z-variable, can offset to adjust location of the hemiellipsoid
+# @param a eccentricity of the hemiellipsoid in the x-direction
+# @param b eccentricity of the hemiellipsoid in the y-direction
+# @param c eccentricity of the hemiellipsoid in the z-direction
+<function geoHemiEllipsoidXP(x,y,z,a,b,c)>
+  H(x)*geoEllipsoid(x,y,z,a,b,c)
+</function>
+
+# ___Paraboloid___
+# @brief A paraboloid with it's axis aligned to x-direction, and yz-cut plane at the origin, and vertex at positive-x
+# @param x X-variable, can offset to adjust location of the paraboloid
+# @param y y-variable, can offset to adjust location of the paraboloid
+# @param z Z-variable, can offset to adjust location of the paraboloid
+# @param xVertex Vertex of the paraboloid
+# @param radiusYZ Radius of the paraboloid
+<function geoParaboloidXP(x,y,z,xVertex,radiusYZ)>
+  H(x)*H(xVertex*radiusYZ^2-x*radiusYZ^2-xVertex*(y^2+z^2))
+</function>
+
+# ___Box___
+# @brief A box with faces aligned to coordinate directions, and low corner at origin, and high corners on the positive axes
+# @param x X-variable, can offset to adjust location of the box
+# @param y y-variable, can offset to adjust location of the box
+# @param z Z-variable, can offset to adjust location of the box
+# @param lx Length of box in the x-direction
+# @param ly Length of box in the y-direction
+# @param lz Length of box in the z-direction
+<function geoBoxP(x,y,z,lx,ly,lz)>
+  geoStep(x,0,lx)*geoStep(y,0,ly)*geoStep(z,0,lz)
+</function>
+
+# ___Cylinder___
+# @brief Cylinder with axis aligned to x-direction, and low axis point at origin, and high axis point at positive-x
+# @param x X-variable, can offset (x-.25) or switch to switch axial direction to, for example y (y)
+# @param y y-variable, can offset to adjust location of cylinder
+# @param z Z-variable, can offset to adjust location of cylinder
+# @param lx length of the cylinder
+<function geoCylinderXP(x,y,z,radius,lx)>
+  geoStep(x,0,lx)*geoCircle(y,z,radius)
+</function>
+
+#__Corner-Rounded Cylinder__
+# @brief Cylinder with rounded corners and the axis aligned to x-direction, and low axis point at origin, and high axis point at positive-x
+# @param x X-variable, can offset (x-.25) or switch to switch axial direction to, for example y (y)
+# @param y y-variable, can offset to adjust location of cylinder
+# @param z Z-variable, can offset to adjust location of cylinder
+# @param lx length of the cylinder
+# @param round_radius, radius of the rounded corner
+<function geoRndCylinderXP(x,y,z,radius,lx,round_radius)>
+  geoCircle(max(0.0,abs(x-0.5*lx)-max(0.0,0.5*lx-round_radius)), \
+            max(0.0,geoRho(y,z)-max(0.0,radius-round_radius)),   \
+            round_radius)
+</function>
+
+#__Corner-Rounded Rectangle Slab or Extrusion__
+# @brief Rectangular Slab, rounded corners. With axis aligned to x-direction, and low axis point at origin, and high axis point at positive-x
+# @param x X-variable, can offset to adjust location of the slab
+# @param y y-variable, can offset to adjust location of the slab
+# @param z Z-variable, can offset to adjust location of the slab
+# @param lx Length of slab in the x-direction
+# @param ly Length of slab in the y-direction
+# @param lz Length of slab in the z-direction
+# @param round_radiusYZ radius of the rounded coreners
+<function geoRndRectangleSlabXP(x,y,z,lx,ly,lz,round_radiusYZ)>
+  geoStep(x,0,lx)*geoRndRectangle(y,z,ly,lz,round_radiusYZ)
+</function>
+
+#__Triangule Slab or Extrusion__
+# @brief A triangular slab with it's axis aligned to x-direction, and low axis point at origin, and high axis point at positive-x
+# points must be sequenced in counter-clockwise order around triangle (right-hand-rule)
+# @param x X-variable, can offset to adjust location of the slab
+# @param y y-variable, can offset to adjust location of the slab
+# @param z Z-variable, can offset to adjust location of the slab
+# @param lx, Length of the slab in the axial direction (default = x)
+# @param ya y coordinate of first vertice of the triangle
+# @param za z coordinate of first vertice of the triangle
+# @param yb y coordinate of second vertice of the triangle
+# @param zb z coordinate of second vertice of the triangle
+# @param yc y coordinate of third vertice of the triangle
+# @param zc z coordinate of third vertice of the triangle
+<function geoTriangleSlabXP(x,y,z,lx,ya,za,yb,zb,yc,zc)>
+  geoStep(x,0,lx)*geoTriangle(y,z,ya,za,yb,zb,yc,zc)
+</function>
+
+#__Quadrilateral Slab or Extrusion__
+# @brief A quadrilateral slab with it's axis aligned to x-direction, and low axis point at origin, and high axis point at positive-x
+# points must be sequenced in counter-clockwise order around quadrilateral (right-hand-rule)
+# @param x X-variable, can offset to adjust location of the slab
+# @param y y-variable, can offset to adjust location of the slab
+# @param z Z-variable, can offset to adjust location of the slab
+# @param lx, Length of the slab in the axial direction (default = x)
+# @param ya y coordinate of first vertice of the quadrilateral
+# @param za z coordinate of first vertice of the quadrilateral
+# @param yb y coordinate of second vertice of the quadrilateral
+# @param zb z coordinate of second vertice of the quadrilateral
+# @param yc y coordinate of third vertice of the quadrilateral
+# @param zc z coordinate of third vertice of the quadrilateral
+# @param yd y coordinate of fourth vertice of the quadrilateral
+# @param zd z coordinate of fourth vertice of the quadrilateral
+<function geoQuadrilateralSlabXP(x,y,z,lx,ya,za,yb,zb,yc,zc,yd,zd)>
+  geoStep(x,0,lx)*geoQuadrilateral(y,z,ya,za,yb,zb,yc,zc,yd,zd)
+</function>
+
+#__Elliptic Slab or Extrusion__
+# @brief An elliptic cylindrical slab with its axis aligned to x-direction, and low axis point at origin, and high axis point at positive-x
+# in plane:  (y/a)^2 + (z/b)^2 < 1.0
+# @param x X-variable, can offset to adjust location of the slab
+# @param y y-variable, can offset to adjust location of the slab
+# @param z Z-variable, can offset to adjust location of the slab
+# @param a eccentricity of the slab in the y direction
+# @param b eccentricity of the slab in the z direction
+# @param lx length of the slab in the axial (default=x) direction
+<function geoEllipticalCylinderXP(x,y,z,a,b,lx)>
+  geoStep(x,0,lx)*geoEllipse(y,z,a,b)
+</function>
+
+# ___Truncated Cone___
+# @brief A truncated cone with it's axis aligned to x-direction, and low axis point at origin, and high axis point at positive-x
+# @param x X-variable, can offset to adjust location of the cone
+# @param y y-variable, can offset to adjust location of the cone
+# @param z Z-variable, can offset to adjust location of the cone
+# @param lowerRadius, Radius of the bottom of the cone
+# @param upperRadius, Radius of the top of the cone
+# @param lx length of the cone in the axial (default=x) direction
+<function geoConeXP(x,y,z,lowerRadius,upperRadius,lx)>
+  geoStep(x,0,lx)*geoCircle(lx*y,lx*z,lx*lowerRadius+x*(upperRadius-lowerRadius))
+</function>
+
+# __Elliptical Truncated Cone__
+# @ description An elliptical truncated cone with it's axis aligned to x-direction, and low axis point at origin, and high axis point at positive-x
+# with lower plane:  (y/a)^2 + (z/b)^2 < lowerScale^2   and
+# with upper plane:  (y/a)^2 + (z/b)^2 < upperScale^2
+# and when lowerScale=upperScale=1.0, degenerates to an elliptical slab or extrusion
+# @param x X-variable, can offset to adjust location of the cone
+# @param y y-variable, can offset to adjust location of the cone
+# @param z Z-variable, can offset to adjust location of the cone
+# @param a eccentricity of the cone in the y direction
+# @param b eccentricity of the cone in the z direction
+# @param lowerScale, Scale of the bottom of the cone
+# @param upperScale, Scale of the top of the cone
+# @param lx Length of the cone in the axial (default = x) direction
+<function geoEllipticalConeXP(x,y,z,a,b,lowerScale,upperScale,lx)>
+  geoStep(x,0,lx)*geoCircle(b*lx*y,a*lx*z,a*b*(lx*lowerScale+x*(upperScale-lowerScale)))
+</function>
+
+# ___  Truncated Pyramid ___
+# @brief A truncated pyramid with it's axis aligned to x-direction with length lx
+# @param x X-variable, can offset to adjust location of the triangle
+# @param y y-variable, can offset to adjust location of the triangle
+# @param z Z-variable, can offset to adjust location of the triangle
+# @param lengthLowY Length of the pyramid base in the y-direction
+# @param lengthLowZ Length of the pyramid base in the z-direction
+# @param lengthHighY Length of the pyramid top in the y-direction
+# @param lengthHighZ Length of the pyramid top in the z-direction
+# @param lx Length of the pyramid in the axial (default = x) direction
+<function geoTruncatedPyramidXP(x,y,z,lengthLowY,lengthLowZ,lengthHighY,lengthHighZ,lx)>
+  geoStep(x,0,lx)*geoQuadrilateral(y,z, \
+    -(lengthLowY+(x/lx)*(lengthHighY-lengthLowY))*0.5,-(lengthLowZ+(x/lx)*(lengthHighZ-lengthLowZ))*0.5, \
+     (lengthLowY+(x/lx)*(lengthHighY-lengthLowY))*0.5,-(lengthLowZ+(x/lx)*(lengthHighZ-lengthLowZ))*0.5, \
+     (lengthLowY+(x/lx)*(lengthHighY-lengthLowY))*0.5, (lengthLowZ+(x/lx)*(lengthHighZ-lengthLowZ))*0.5, \
+    -(lengthLowY+(x/lx)*(lengthHighY-lengthLowY))*0.5, (lengthLowZ+(x/lx)*(lengthHighZ-lengthLowZ))*0.5)
+</function>
+
+# ___Bi-Parabolic Slab or Extrusion___
+# extruded in the x-direction, and with XY symmetry plane,
+# and XZ cut plane at the origin, and vertices at positive-y
+<function geoBiParabolicSlabXP(x,y,z,lx,inner_yVertex,outer_yVertex,inner_zHalfHeight,outer_zHalfHeight)>
+  geoStep(x,0,lx)*H(y)                                                          \
+  *H(outer_yVertex*outer_zHalfHeight^2-y*outer_zHalfHeight^2-outer_yVertex*z^2) \
+  *H(y*inner_zHalfHeight^2+inner_yVertex*z^2-inner_yVertex*inner_zHalfHeight^2)
+</function>
+
+# ___Pipe___
+# @brief Cylinder with a hollow center. Axis aligned to x-direction, and low axis point at origin, and high axis point at positive-x
+# @param x X-variable, can offset to adjust location of pipe
+# @param y y-variable, can offset to adjust location of pipe
+# @param z Z-variable, can offset to adjust location of pipe
+# @param innerRadius Radius of the inside of the pipe
+# @param outerRadius Radius of the outside of the pipe
+# @param lx Length of the pipe in the axial direction (default = x)
+<function geoPipeXP(x,y,z,innerRadius,outerRadius,lx)>
+  geoStep(x,0,lx)*geoCircle(y,z,outerRadius)*geoHole(y,z,innerRadius)
+</function>
+
+# ___Torus___
+# @brief A torus with it's axis aligned to the x-direction, and center at the origin
+# @param x X-variable, can offset to adjust location of torus
+# @param y y-variable, can offset to adjust location of torus
+# @param z Z-variable, can offset to adjust location of torus
+# @param minorRadius Radius of the physical torus
+# @param majorRadius Distance between origin and the "middle" of the torus
+<function geoTorusX(x,y,z,minorRadius,majorRadius)>
+  geoCircle(x,geoRho(y,z)-majorRadius,minorRadius)
+</function>
+
+# ___Elliptic Torus___
+# with axis aligned to the x-direction, and center at the origin
+# elliptic cross-section is revolved around an elliptic arc
+# in XY plane:  (x/a)^2 + ((y-RmajorY)/b)^2 < 1.0   and
+# in XZ plane:  (x/a)^2 + ((z-RmajorZ)/b)^2 < 1.0
+# in midplane plane, at x=0, inner and outer edges are ellipses:
+# (y/(RmajorY+/-b))^2 + (z/(RmajorZ+/-b))^2 = 1.0
+# and the lower and upper curves, at x=+/-a, are the ellipse:
+# (y/RmajorY)^2 + (z/RmajorZ)^2 = 1.0
+<function geoEtorR8(b,RmajorY,RmajorZ)>
+  (RmajorY^2-b^2)^2*(RmajorZ^2-b^2)^2
+</function>
+<function geoEtorA(y,z,b,RmajorY,RmajorZ)>
+  y^2*(RmajorZ^2-b^2)^2+z^2*(RmajorY^2-b^2)^2
+</function>
+<function geoEtorBhalf(y,z,b,RmajorY,RmajorZ)>
+  (y^2*(RmajorZ^2-b^2)^2*RmajorY+z^2*(RmajorY^2-b^2)^2*RmajorZ)*abs(RmajorY*RmajorZ)
+</function>
+<function geoEtorDalph(y,z,b,RmajorY,RmajorZ)>
+  sqrt(max(0.0,geoEtorR8(b,RmajorY,RmajorZ)*(geoEtorA(y,z,b,RmajorY,RmajorZ)-y^2*z^2*(RmajorY-RmajorZ)^2)))*abs(RmajorY*RmajorZ)
+</function>
+<function geoEtorDbeta(y,z,b,RmajorY,RmajorZ)>
+  sqrt(max(0.0,geoEtorR8(b,RmajorY,RmajorZ)*(geoEtorA(y,z,b,RmajorY,RmajorZ)*(y^2*RmajorZ^2+z^2*RmajorY^2)-y^2*z^2*(RmajorY-RmajorZ)^2*(RmajorY^2*RmajorZ^2))))
+</function>
+<function geoEtorAlph(y,z,b,RmajorY,RmajorZ)>
+  geoEtorBhalf(y,z,b,RmajorY,RmajorZ)-geoEtorDalph(y,z,b,RmajorY,RmajorZ)
+</function>
+<function geoEtorBeta(y,z,b,RmajorY,RmajorZ)>
+  geoEtorBhalf(y,z,b,RmajorY,RmajorZ)-geoEtorDbeta(y,z,b,RmajorY,RmajorZ)
+</function>
+<function geoEtorRminor(y,z,b,RmajorY,RmajorZ)>
+  b*abs(RmajorY*RmajorZ)*geoEtorA(y,z,b,RmajorY,RmajorZ)*(geoEtorAlph(y,z,b,RmajorY,RmajorZ)-geoEtorBeta(y,z,b,RmajorY,RmajorZ))
+</function>
+<function geoEtorBminor(y,z,b,RmajorY,RmajorZ)>
+  b^2*RmajorY^2*RmajorZ^2*geoEtorA(y,z,b,RmajorY,RmajorZ)^2-geoEtorAlph(y,z,b,RmajorY,RmajorZ)*geoEtorBeta(y,z,b,RmajorY,RmajorZ)
+</function>
+<function geoEllipticalTorusX(x,y,z,a,b,RmajorY,RmajorZ)>
+  H(y^2+z^2)*geoEllipse(x,geoEtorRminor(y,z,b,RmajorY,RmajorZ),a,geoEtorBminor(y,z,b,RmajorY,RmajorZ))
+</function>
+
+# ================================================================
+# ================================================================
+# ================================================================
+
+# ================================================================
+# Intermediate-Level Macros which assemble REGIONBLOCKS variable
+# ================================================================
+
+<macro fillGeoExpressionRegion(REGIONBLOCKS,myRegionName,shapeExpression,shapeComplement)>
+  <STRgn region>
+    kind = stRgnIntersect
+    REGIONBLOCKS
+    geoExpressionRegion(myRegionName,shapeExpression,shapeComplement)
+  </STRgn>
+</macro>
+
+<macro voidGeoExpressionRegion(REGIONBLOCKS,myRegionName,shapeExpression,shapeComplement)>
+  $ voidComplement = not geoBoolean(shapeComplement)
+  <STRgn region>
+    kind = stRgnUnion
+    REGIONBLOCKS
+    geoExpressionRegion(myRegionName,shapeExpression,voidComplement)
+  </STRgn>
+</macro>
+
+<macro fillGeoPythonRegion(REGIONBLOCKS,myRegionName,pythonFunction,shapeComplement)>
+  <STRgn region>
+    kind = stRgnIntersect
+    REGIONBLOCKS
+    geoPythonRegion(myRegionName,pythonFunction,shapeComplement)
+  </STRgn>
+</macro>
+
+<macro voidGeoPythonRegion(REGIONBLOCKS,myRegionName,pythonFunction,shapeComplement)>
+  $ voidComplement = not geoBoolean(shapeComplement)
+  <STRgn region>
+    kind = stRgnIntersect
+    REGIONBLOCKS
+    geoPythonRegion(myRegionName,pythonFunction,shapeComplement)
+  </STRgn>
+</macro>
+
+<macro fillGeoCadRegion(REGIONBLOCKS,myRegionName,cadFileName,shapeComplement,scaleCadCoords,translateCadCoords)>
+  <STRgn region>
+    kind = stRgnIntersect
+    REGIONBLOCKS
+    geoCadRegion(myRegionName,cadFileName,shapeComplement,scaleCadCoords,translateCadCoords)
+  </STRgn>
+</macro>
+
+<macro voidGeoCadRegion(REGIONBLOCKS,myRegionName,cadFileName,shapeComplement,scaleCadCoords,translateCadCoords)>
+  $ voidComplement = not geoBoolean(shapeComplement)
+  <STRgn region>
+    kind = stRgnUnion
+    REGIONBLOCKS
+    geoCadRegion(myRegionName,cadFileName,voidComplement,scaleCadCoords,translateCadCoords)
+  </STRgn>
+</macro>
+
+# ================================================================
+# Base-Level Utilities
+# ================================================================
+
+# convert string to python string object
+<macro geoString(uStr)>
+$ uStrQ = uStr"`
+`"uStrQ
+</macro>
+
+# convert numeric, arbitrary case T-or-F,
+# or arbitrary case true-or-false, to python True-or-False
+<macro geoBoolean(uStr)>
+  $ pyBool = (geoString(uStr).lower()).capitalize()
+  $ if uStr==0
+    $ pyBool = False
+  $endif
+  $ if geoString(uStr)=="F"
+    $ pyBool = False
+  $endif
+  $ if geoString(uStr)=="f"
+    $ pyBool = False
+  $endif
+  $ if geoString(pyBool)!="False"
+    $ pyBool = True
+  $endif
+  pyBool
+</macro>
+
+# ================================================================
+# Base-Level Macros to specify expression, python or CAD shape regions
+# ================================================================
+
+<macro geoExpressionRegion(myRegionName,shapeExpression,shapeComplement)>
+  $ OFFSET = -0.6
+  $ FUNCSIGN = 1.0
+  $ if not geoBoolean(shapeComplement)
+    $ OFFSET = 0.4
+    $ FUNCSIGN = -1.0
+  $endif
+  <STRgn myRegionName>
+    kind = stFuncRgn
+    <STFunc function>
+      kind = expression
+      expression = OFFSET + FUNCSIGN*shapeExpression
+    </STFunc>
+  </STRgn>
+</macro>
+
+<macro geoCadRegion(myRegionName,cadFileName,shapeComplement,scaleCadCoords,translateCadCoords)>
+  $ FLIP = true
+  $ if not geoBoolean(shapeComplement)
+    $ FLIP = false
+  $endif
+  <STRgn myRegionName>
+    kind = stCadRgn
+    filename = cadFileName
+    scale = [scaleCadCoords scaleCadCoords scaleCadCoords]
+    flipInterior = FLIP
+    translation = translateCadCoords
+  </STRgn>
+</macro>
+
+<macro geoPythonRegion(myRegionName,pythonFunction,shapeComplement)>
+  <STRgn myRegionName>
+    kind = stFuncRgn
+    <STFunc function>
+      kind = stPyFunc
+      name = pythonFunction
+    </STFunc>
+  </STRgn>
+</macro>
+
+# ================================================================
+# FastCAD macro
+# ================================================================
+# @param gridBoundaryName Name to be given to grid boundary
+# @param cadFileName the STL file name
+# @param deyMittraFraction Value of Dey-Mittra fraction of the simulation
+# @param shapeComplement If True inverts selection
+<macro fillGeoFastCAD(gridBoundaryName, cadFileName, deyMittraFraction, shapeComplement, scaleCadCoords)>
+  $ FLIP = true
+  $ if not geoBoolean(shapeComplement)
+    $ FLIP = false
+  $endif
+  <GridBoundary gridBoundaryName>
+    kind = gridRgnBndry
+    dmFrac = deyMittraFraction
+    polyfilename = cadFileName
+    flipInterior = FLIP
+    scale = [scaleCadCoords scaleCadCoords scaleCadCoords]
+    printGridData = 0
+  </GridBoundary>
+</macro>
+
+# ================================================================
+# FastCAD macro
+# ================================================================
+# @param gridBoundaryName Name to be given to grid boundary
+# @param cadFileName the STL file name
+# @param deyMittraFraction Value of Dey-Mittra fraction of the simulation
+# @param shapeComplement If True inverts selection
+# @param calcVol whether or not to calculate the volume
+<macro fillGeoFastCAD(gridBoundaryName, cadFileName, deyMittraFraction, shapeComplement, scaleCadCoords, calcVol)>
+  $ FLIP = true
+  $ if not geoBoolean(shapeComplement)
+    $ FLIP = false
+  $endif
+  <GridBoundary gridBoundaryName>
+    kind = gridRgnBndry
+    dmFrac = deyMittraFraction
+    calculateVolume = calcVol
+    polyfilename = cadFileName
+    flipInterior = FLIP
+    scale = [scaleCadCoords scaleCadCoords scaleCadCoords]
+    printGridData = 0
+  </GridBoundary>
+</macro>
