@@ -1,0 +1,18 @@
+Contains the following files:
+
+Master documents:
+ponderomotive.tex
+ponderomotive.bib
+makefile
+
+Subsections:
+acknowlegments.tex
+couplingSection.tex
+fparallel.tex
+implications.tex
+modelSection.tex
+nstx.tex
+pfSection.tex
+results.tex
+uedgeSection.tex
+vorpalSection.tex
