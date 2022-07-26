@@ -1,0 +1,121 @@
+\documentclass[%
+ aip,
+% jmp,
+% bmf,
+% sd,
+% rsi,
+ amsmath,amssymb,
+%preprint,%
+ reprint,%
+%author-year,%
+%author-numerical,%
+% Conference Proceedings
+]{revtex4-1}
+
+\usepackage{graphicx}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+%\usepackage[mathlines]{lineno}% Enable numbering of text and display math
+%\linenumbers\relax % Commence numbering lines
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{etoolbox}
+
+%% Apr 2021: AIP requests that the corresponding 
+%% email to be moved after the affiliations
+\makeatletter
+\def\@email#1#2{%
+ \endgroup
+ \patchcmd{\titleblock@produce}
+  {\frontmatter@RRAPformat}
+  {\frontmatter@RRAPformat{\produce@RRAP{*#1\href{mailto:#2}{#2}}}\frontmatter@RRAPformat}
+  {}{}
+}%
+\makeatother
+\begin{document}
+
+\preprint{AIP/123-QED}
+
+\title[Coupled UEDGE/Vorpal modeling of RF-induced ponderomotive effects on edge and SOL transport]{Coupled UEDGE/Vorpal modeling of RF-induced ponderomotive effects on edge and SOL transport} 
+\author{Thomas G. Jenkins}
+\homepage{https://nucleus.txcorp.com/~tgjenkins}
+\author{David N. Smithe}
+\affiliation{Tech-X Corporation, 5621 Arapahoe Avenue Suite A, Boulder CO 80303, USA}
+\author{Maxim V. Umansky}
+\author{Andris M. Dimits}
+\author{Thomas D. Rognlien}
+\affiliation{Lawrence Livermore National Laboratory, Livermore CA 94550, USA}
+\email{tgjenkins@txcorp.com}
+ 
+\date{\today}
+
+\begin{abstract}
+Large-amplitude electromagnetic fields driven by RF antennas in the tokamak plasma edge induce perturbed 
+charge and current densities on fast RF timescales as power is injected to heat the core plasma. However, 
+these fields, charges, and currents also give rise to slow (transport-timescale) ponderomotive effects, since 
+the time-average of products of fast quantities is nonzero on these longer timescales. Together with the 
+conventional $\nabla(|{\bf E}|^{2})$ ponderomotive force associated with nonuniform EM energy density, 
+additional force terms dependent on density gradients, species charge signs, collisionality, and incident 
+wave polarization arise, and these terms introduce new vorticity, energy, and parallel momentum sources 
+to the edge and SOL transport.  We have coupled the Vorpal (FDTD EM+plasma solver) and UEDGE (2D 
+edge plasma transport) codes in a manner enabling numerical study of these ponderomotive terms and 
+their effects on edge/SOL transport. In NSTX-adjacent scenarios with experimentally realistic plasma 
+profiles and antenna parameters, we observe that the ponderomotive contribution to parallel electron 
+momentum is significant (comparable to or larger than other edge transport processes) for representative 
+RF input power fluxes. We demonstrate that this parallel momentum source drives the transport of density 
+away from the region immediately in front of the RF antenna. Further, as the density is reduced, we show 
+that the polarization, propagation, and absorption of incident RF waves is accordingly modified, often in 
+detrimental (for antenna efficiency and core power coupling) and potentially self-reinforcing ways.  
+Because ponderomotive effects scale in magnitude with the antenna input power flux, they become 
+increasingly relevant for large, high-RF-power experiments such as ITER (input power flux 
+$\sim 1~\mbox{MW/m}^2$), and we consider the implications of these results for ITER antenna operation.
+\end{abstract}
+
+\maketitle
+
+\section{\label{sec:ponderomotive}Ponderomotive Force}
+\input{pfSection.tex}
+
+\section{\label{sec:modelingtools}Modeling Tools}
+\subsection{\label{sec:uedge}UEDGE}
+\input{uedgeSection.tex}
+\subsection{\label{sec:vorpal}Vorpal}
+\input{vorpalSection.tex}
+\subsection{\label{sec:coupling}Coupling Strategy}
+\input{couplingSection.tex}
+
+\section{\label{sec:slabmodel}Numerical Model}
+\input{modelSection.tex}
+\subsection{\label{sec:slab}An NSTX-like Slab Model}
+\input{nstx.tex}
+\subsection{\label{sec:parallelforce}Parallel Force}
+\input{fparallel.tex}
+
+\section{\label{sec:results}Results}
+\input{results.tex}
+
+\section{\label{sec:implications}Implications and Future Work}
+\input{implications.tex}
+
+\begin{acknowledgments}
+\input{acknowlegments.tex}
+\end{acknowledgments}
+
+\section*{Data Availability Statement}
+The data that support the findings of this study are available from the corresponding author upon reasonable request.
+
+\appendix
+
+\section{Appendixes}
+
+%\nocite{*} % to see all entries in .bib file whether or not they were cited
+\bibliography{ponderomotive}% Produces the bibliography via BibTeX.
+
+\end{document}
+
+% sample cites
+%\cite{feyn54,witten2001,epr,Berman1983}, 
+%\onlinecite{epr,feyn54,Bire82,Berman1983} 
+%Can put footnotes into the bibliography\footnote{like this.}

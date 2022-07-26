@@ -1,0 +1,4 @@
+pdflatex ponderomotive
+bibtex ponderomotive
+pdflatex ponderomotive
+pdflatex ponderomotive
