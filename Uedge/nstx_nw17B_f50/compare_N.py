@@ -8,9 +8,9 @@ ufile="uedge17.1.h5"
 hdf5_restore(ufile)
 plt.plot(z, bbb.nis[:,21,0],"--", label="1")
 
-#ufile="uedge17.2.h5"
-#hdf5_restore(ufile)
-#plt.plot(z, bbb.nis[:,21,0],"-.", label="2")
+ufile="uedge17.2.h5"
+hdf5_restore(ufile)
+plt.plot(z, bbb.nis[:,21,0],"-.", label="2")
 
 plt.legend(loc="lower left")
 
