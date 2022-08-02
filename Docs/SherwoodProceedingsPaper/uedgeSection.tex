@@ -1,1 +1,98 @@
 (LLNL) includes description of UEDGE and the equations it solves.
+
+
+
+
+UEDGE is a two-dimensional fluid transport code for collisional
+boundary plasmas plasmas \cite{}. The plasma physics model in UEDGE is
+based on Braginskii \cite{}, with the addition of ad hoc anomalous or
+turbulence-enhanced transport coefficients for the direction across
+the magnetic field; transport along the magnetic field is taken as
+classical with flux limits. For neutral gas, UEDGE includes a
+collisional fluid model, based on the assumptions that charge-exchange
+(CX) collisions are strong. Besides, UEDGE includes some basic models
+for plasma-material interactions (PMI) to describe material surface
+sputtering etc.
+
+The full UEDGE model includes the following time-evolution equations:\\
+(i) plasma density, also impurity ion and neutrals densities \\
+(ii) plasma, also impurity ions, parallel momenta \\
+(vi) neutral hydrogen parallel momentum \\
+(iii) electron temperature \\
+(iv) ion (including impurities and neutrals) temperature \\
+(v) electric potential
+
+The equations are discretied on a toroidally symmetric 2D
+finite-volume grid and integrated in time, typically to a steady
+state.
+
+UEDGE has had many dozens of applications since the early 1990s,
+including: modeling of divertor experiments (DIII-D, C-Mod, NSTX, and
+others), modeling fusion reactors and future tokamaks (ITER, ARIES,
+FDF, FNSF, SPARC), and other physics studies \cite{}.
+
+To include physics outside of its model, UEDGE has been coupled to other
+codes, e.g., for including kinetric neutral transport \cite{}, kinetic
+impurity transport \cite{}, radiation transport \cite{}, plasma
+turbulence \cite{}, dust transport \cite{}, transport in material
+walls \cite{}. In the present report, we describe coupling of UEDGE
+with RF wave physics code Vorpal \cite{}.
+
+
+\subsection{RF field effects on tokamak edge plasma}
+
+The RF antenna field in boundary plasma is a source of energy, due to
+absorbtion of wave energy, and a source of momentum due to the
+ponderomotive forces that RF wave exerts on charged particles.
+
+\subsubsection{RF power source}
+
+Normally only a small fraction, on the order of 1$\%$, of the RF
+antenna power is absorbed in the SOL (why?). For the RF antenna power
+flux and the absorbed power fraction $f_{abs}$, one has the RF power
+source in the SOL
+
+\beq
+P_{RF} = f_{abs} q_{RF} / \lambda_{sol},
+\eeq
+
+where $\lambda_{sol}$ is the SOL width.
+
+Similarly, the power source due to the tokamak exhaust heat flux is
+
+\beq
+P_{ex} = q_{ex}	/ \lambda_{sol},
+\eeq
+
+where the exhaust heat flux is
+
+\beq
+q_{ex} = P_{core} / A_{LCFS}
+\eeq
+
+Using parameters of a typical tokamak, $P_{core}$=10 MW, $A_{LCFS}$=10
+m$^2$, $q_{RF}$=1 MW/m$^2$, one can conclude that the RF power source
+in the SOL is insignificant,
+
+\beq
+P_{RF}/P_{ex} = f_{abs} \sim 0.01\ll 1
+\eeq
+
+
+\subsubsection{RF source of perpendicular momentum}
+
+The momentum source from the RF antenna field enters boundary plasma
+via ponderomotive (PM) forces. The PM forces perpendicular to the
+magnetic field give rise to plasma drifts, which are not entirely
+ambipolar, and this leads to perturbing the electric potential
+distribution in the plasma, which may have various effects on
+it. However, our calculations demonstrate that this effect is very
+small for realistic tokamak plasma parameters.
+
+On the other hand, parallel PM forces from the RF antenna, for
+realistic tokamak parameters, turn out to produce quite significant
+effects. This is consistent with experimental observations showing RF
+antenna perturbing tokamak edge plasmas; however there are other
+mechanisms (e.g., the RF sheath \cite{} which is beyond the present
+study) that may play an important and perhaps even dominant role
+there.
