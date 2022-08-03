@@ -1,1 +1,149 @@
-(Tech-X) Includes David's initial derivation.
+To derive an expression for the ponderomotive force, 
+we begin by writing Maxwell's equations together with the plasma kinetic equation;
+\begin{eqnarray}
+\nabla \cdot {\bf B} & = & 0 \\
+{\partial {\bf B} \over \partial t} & = & - \nabla \times {\bf E} \\
+\nabla \cdot {\bf E} & = & {1 \over \epsilon_{0}} \sum_{s} \int q_{s} f_{s}~d^{3}{\bf v} \\
+{\partial {\bf E} \over \partial t} & = & c^{2} \nabla \times {\bf B} - {1 \over \epsilon_{0}} \sum_{s} 
+\int q_{s} {\bf v} f_{s}~d^{3}{\bf v} \\
+{\partial f_{s} \over \partial t} & + & {\bf v} \cdot \nabla f_{s} + {q_{s} \over m_{s}}
+[{\bf E} + {\bf v} \times {\bf B}] \cdot {\partial f_{s} \over \partial {\bf v}} = 
+\sum_{b} C_{s,b} + S_{s} ~.~
+\end{eqnarray} 
+
+Here, ${\bf E}={\bf E}({\bf x},t)$ and ${\bf B}={\bf B}({\bf x},t)$ are the electric and magnetic fields;
+$f_{s}=f_{s}({\bf x},{\bf v},t)$ is the distribution function of species $s$ whose members have charge
+$q_{s}$ and mass $m_{s}$.  The quantities $({\bf x}, {\bf v}, t)$ are position, velocity, and time coordinates
+respectively.
+In addition, $c$ is the speed of light and $\epsilon_{0}$ the vacuum permittivity.  We represent
+collisional processes which species $s$ undergoes with an arbitrary species $b$ (where $b$ may represent
+either $s$ itself, or other charged or neutral species) via a generic collison term $C_{s,b}$, and we likewise
+represent source or sink terms for species $s$ with the generic term $S_{s}$.  For the moment the
+specific form of these source and collisional terms is immaterial.
+
+As alluded to in the introduction, it is of interest to separate the Maxwell and charged-species 
+kinetic equations (and fluid moments of the latter) into slow- and fast-timescale parts; the latter
+will represent the RF wave physics while the former will be associated with edge/SOL transport. 
+This separation will 
+ultimately lead to a focus on the pressure term in the fluid momentum equation, and on terms which 
+are the product of two fast time-scale quantities. Such 
+products have both slow and fast time-scale behavior, as illustrated in the classic trigonometric 
+identity, $\sin^{2}(x) = 1⁄2-1⁄2 \cos(2x)$; here the product of $\sin(x)$ with itself generates a 
+doubled-frequency oscillatory part and a non-oscillatory part, the latter of which is of primary 
+interest here. One should note that the phasing of the two items in the product matters, as for 
+example, $\sin(x) \cos(x) = 1⁄2 \sin(2x)$, which has no non-oscillatory part. Thus, a product of 
+two different quantities, such as a charge density times an electric field, may or may not have a 
+non-oscillatory part, but a product of a quantity with itself will most definitely have a 
+non-oscillatory part.  Conceptually, such non-oscillatory components represent physics on the slower
+(transport) timescale, even though they arise from products of the fast, oscillatory terms associated 
+with RF wave physics.
+
+To separate our equations into fast and slow timescales, we will define complementary, idempotent low-pass
+and high-pass filters, designated as $\langle \ldots \rangle$ and $\{ \ldots \}$ respectively.
+We will also use a $0$ subscript to denote low-pass-filtered single quantities and a $1$ subscript to
+denote high-pass-filtered single quantities.  Accordingly, for an arbitrary function of time (which may
+also depend on position and possibly velocity) we may write
+\begin{eqnarray}
+A(t) & = & \langle A \rangle + \{ A \} \nonumber \\
+     & \equiv & A_{0} + A_{1} 
+\end{eqnarray}
+for operators which satisfy
+\begin{eqnarray}
+\langle A_{0} \rangle = A_{0} ~~;&~~ \{ A_{1} \} = A_{1} ~~&~~ \mbox{(idempotent)} \\
+\langle A_{1} \rangle = 0 ~~;&~~ \{ A_{0} \} = 0 ~~&~~ \mbox{(complementary)}
+\end{eqnarray} 
+For products of arbitrary functions of time, we stipulate the following relations:
+\begin{itemize}
+\item Low-frequency (zero-subscripted) quantities can pass in and out of both the $\langle \ldots \rangle$ and $\{ \ldots \}$ operators, so that 
+\begin{eqnarray}
+\langle \langle A \rangle B \rangle & = & \langle A \rangle \langle B \rangle = A_{0} B_{0} ~,\\
+\{ \langle A \rangle B \} & = & \langle A \rangle \{ B \} = A_{0} B_{1} ~, \\
+\langle A B \rangle & = & \langle A_{0} B_{0} + A_{1} B_{0} + A_{0} B_{1} + A_{1} B_{1} \rangle \nonumber \\ 
+& = & \langle A \rangle \langle B \rangle + \langle \{A\} \{B\} \rangle \nonumber \\
+& = & A_{0} B_{0} + \langle A_{1} B_{1} \rangle ~.
+\end{eqnarray}
+\item The low-frequency average of a constant is unity, so that 
+\begin{equation}
+\langle A_{0} \rangle = A_{0} \langle 1 \rangle = A_{0} ~.
+\end{equation}
+\item The high-frequency average of a constant is zero, so that
+\begin{equation}
+\{ A_{0} \} = A_{0} \{ 1 \} = 0 ~.
+\end{equation}
+\end{itemize}
+No assumption will be made on the relative magnitudes of any quantities $A_{0}$ and $A_{1}$
+at this point -- this is spectral decomposition, not linearization as the $1$ subscript
+conventionally suggests.
+
+Common fluid moments associated with the distribution function $f_{s}({\bf x},{\bf v},t)$, and
+which we will spectrally decompose in the manner indicated, include the following:
+\begin{eqnarray}
+n_{s} = & \int f_{s}~d^{3}{\bf v} & \mbox{~(density)} \\
+\rho_{s} = & \int q_{s} f_{s}~d^{3}{\bf v} & \mbox{~(charge density)} \\
+{\bf V}_{s} = & (1/n_{s}) \int f_{s} {\bf v}~d^{3}{\bf v} & \mbox{~(fluid velocity)} \\
+{\bf J}_{s} = & \int q_{s} f_{s} {\bf v}~d^{3}{\bf v} & \mbox{~(current density)} \\
+{\mathbf p}_{s} = & \int m_{s} f_{s} {\bf v} {\bf v}~d^{3}{\bf v} & 
+\mbox{~(lab-frame pressure)} \\
+{\mathbf P}_{s} = & \int m_{s} f_{s} ({\bf v} - {\bf V}_{s})({\bf v} - {\bf V}_{s})~d^{3}{\bf v} & 
+\mbox{~(fluid-frame pressure) ~~~~~} 
+\end{eqnarray}
+where all quantities on the left vary only with $({\bf x},t)$. 
+
+Maxwell's equations, when velocity integrals are expressed in terms of the fluid
+moments, can be seen to be linear and timescale-separable in $\rho_{s}$ and ${\bf J}_{s}$ 
+[i.e. the divergence of slow (fast) electric fields arises from slow (fast) charge 
+densities, without any mixing of timescales via products or quotients of terms that vary on both fast and 
+slow timescales, such that the relations
+
+\begin{equation}
+\nabla \cdot {\bf E}_{0} = {1 \over \epsilon_{0}} \sum_{s} \int q_{s} f_{0s}~d^{3}{\bf v}
+= {1 \over \epsilon_{0}} \sum_{s} \rho_{0s}
+\end{equation}
+and
+\begin{equation}
+\nabla \cdot {\bf E}_{1} = {1 \over \epsilon_{0}} \sum_{s} \int q_{s} f_{1s}~d^{3}{\bf v}
+= {1 \over \epsilon_{0}} \sum_{s} \rho_{1s}
+\end{equation}
+both independently hold].  The charge-weighted velocity integral of the kinetic equation yields a
+continuity equation
+\begin{equation}
+{\partial \rho_{s} \over \partial t} + \nabla \cdot {\bf J}_{s} = \mbox{~charge sources and sinks}
+\end{equation}
+which can in principle also easily separate into fast and slow components.
+This timescale-separability offers great advantage for the Maxwell and continuity equations,
+as equations relevant to each timescale can be considered separately.  However, this 
+simplicity is not preserved by higher-order velocity moments of the kinetic equation.
+In particular, both the fluid-frame pressure (which is related to the 
+species fluid velocity ${\bf V}_{s} = {\bf J}_{s}/\rho_{s}$, a ratio of quantities that vary on both
+fast and slow timescales) and terms associated with the Lorentz force (products of charge/current
+densities and electromagnetic fields) are not easily separable into purely ``fast'' and ``slow''
+components.  We have, for the fluid momentum equation,
+
+\begin{eqnarray}
+{\partial {\bf J}_{s} \over \partial t} + \nabla \cdot \left( {{\bf J}_{s} {\bf J}_{s} \over \rho_{s}} \right)
++ {q_{s} \over m_{s}} \nabla \cdot {\mathbf P}_{s} = {q_{s} \over m_{s}} [\rho_{s} {\bf E} + {\bf J}_{s}
+\times {\bf B}] \nonumber \\ 
+{} + \mbox{~current sources and sinks}
+\end{eqnarray}
+which can also be written in terms of the species fluid velocity as
+
+\begin{eqnarray}
+{m_{s} \over q_{s}} \rho_{s} \left[ {\partial {\bf V}_{s} \over \partial t} +
+({\bf V}_{s} \cdot \nabla) {\bf V}_{s} \right] + \nabla \cdot {\mathbf P}_{s} =
+\rho_{s}[{\bf E} + {\bf V}_{s} \times {\bf B}] \nonumber \\ 
+{} + \mbox{~momentum sources and sinks}
+\end{eqnarray} 
+
+${\bf V}_{s}$ and ${\bf J}_{s}$ are two of many interrelated field quantities in the fluid system of 
+equations, and all of these quantities participate in products of two or more fields, so where best to 
+initiate the analysis of time-scale separation, e.g. at Vs, or at Js, is not particularly evident, from 
+a fluid point-of-view. However, Maxwell’s Equation, and the fluid Continuity Equation are linear in $\rho_{s}$, 
+${\bf J}_{s}$, ${\bf E}$ and ${\bf B}$, so time-scale separation in terms of these quantities is pure, 
+e.g., in these equations Jslow interacts with only rhoslow, Eslow, and Bslow, and not with rhofast, 
+Efast and Bfast. This provides a fairly strong incentive to initiate the time-scale separation 
+analysis at Js, rather than Vs, which is what we will do in this write-up. This means that the 
+product terms only occur in the fluid moment equations beyond the Continuity Equation, the first of 
+which is the momentum equation.
+
+
+
