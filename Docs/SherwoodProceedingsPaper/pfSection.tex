@@ -28,10 +28,11 @@ This separation will
 ultimately lead to a focus on the pressure term in the fluid momentum equation, and on terms which 
 are the product of two fast time-scale quantities. Such 
 products have both slow and fast time-scale behavior, as illustrated in the classic trigonometric 
-identity, $\sin^{2}(x) = 1⁄2-1⁄2 \cos(2x)$; here the product of $\sin(x)$ with itself generates a 
+identity, $\sin^{2}(\omega t) = 1⁄2-1⁄2 \cos(2\omega t)$; here the product of $\sin(\omega t)$ with 
+itself generates a 
 doubled-frequency oscillatory part and a non-oscillatory part, the latter of which is of primary 
 interest here. One should note that the phasing of the two items in the product matters, as for 
-example, $\sin(x) \cos(x) = 1⁄2 \sin(2x)$, which has no non-oscillatory part. Thus, a product of 
+example, $\sin(\omega t) \cos(\omega t) = 1⁄2 \sin(2\omega t)$, which has no non-oscillatory part. Thus, a product of 
 two different quantities, such as a charge density times an electric field, may or may not have a 
 non-oscillatory part, but a product of a quantity with itself will most definitely have a 
 non-oscillatory part.  Conceptually, such non-oscillatory components represent physics on the slower
@@ -40,42 +41,46 @@ with RF wave physics.
 
 To separate our equations into fast and slow timescales, we will define complementary, idempotent low-pass
 and high-pass filters, designated as $\langle \ldots \rangle$ and $\{ \ldots \}$ respectively.
-We will also use a $0$ subscript to denote low-pass-filtered single quantities and a $1$ subscript to
+We will also use a ``$0$'' subscript to denote low-pass-filtered single quantities and a ``$1$'' subscript to
 denote high-pass-filtered single quantities.  Accordingly, for an arbitrary function of time (which may
-also depend on position and possibly velocity) we may write
+also depend on position and possibly velocity) we may write the spectral decomposition
 \begin{eqnarray}
 A(t) & = & \langle A \rangle + \{ A \} \nonumber \\
      & \equiv & A_{0} + A_{1} 
 \end{eqnarray}
-for operators which satisfy
+which separates $A$ into ``slow'' and ``fast'' timescales.  The spectral operators satisfy
 \begin{eqnarray}
-\langle A_{0} \rangle = A_{0} ~~;&~~ \{ A_{1} \} = A_{1} ~~&~~ \mbox{(idempotent)} \\
-\langle A_{1} \rangle = 0 ~~;&~~ \{ A_{0} \} = 0 ~~&~~ \mbox{(complementary)}
+\langle A_{0} \rangle = A_{0} ~~;&~~ \{ A_{1} \} = A_{1} ~~&~~ \mbox{(idempotent)} \label{i1} \\
+\langle A_{1} \rangle = 0 ~~;&~~ \{ A_{0} \} = 0 ~~&~~ \mbox{(complementary)} \label{i2}
 \end{eqnarray} 
-For products of arbitrary functions of time, we stipulate the following relations:
-\begin{itemize}
-\item Low-frequency (zero-subscripted) quantities can pass in and out of both the $\langle \ldots \rangle$ and $\{ \ldots \}$ operators, so that 
+We will further assume that practically speaking, the highest representative frequency of the ``slow''
+timescale is well-separated from the lowest representative frequency of the ``fast'' timescale, such
+that a broad range of null frequencies exists between the two timescales.  Thus,
+any sidebands produced by products of two physical variables fall unambiguously within these ``slow'' or ``fast''
+ranges;
 \begin{eqnarray}
-\langle \langle A \rangle B \rangle & = & \langle A \rangle \langle B \rangle = A_{0} B_{0} ~,\\
-\{ \langle A \rangle B \} & = & \langle A \rangle \{ B \} = A_{0} B_{1} ~, \\
-\langle A B \rangle & = & \langle A_{0} B_{0} + A_{1} B_{0} + A_{0} B_{1} + A_{1} B_{1} \rangle \nonumber \\ 
-& = & \langle A \rangle \langle B \rangle + \langle \{A\} \{B\} \rangle \nonumber \\
-& = & A_{0} B_{0} + \langle A_{1} B_{1} \rangle ~.
+\langle A_{0} B_{0} \rangle = A_{0} B_{0} ~;~&
+\langle A_{0} B_{1} \rangle = 0 ~;~&
+\langle A_{1} B_{1} \rangle \neq 0 \\
+\{ A_{0} B_{0} \} = 0 ~;~&
+\{ A_{0} B_{1} \} = A_{0} B_{1} ~;~&
+\{ A_{1} B_{1} \} \neq 0
 \end{eqnarray}
-\item The low-frequency average of a constant is unity, so that 
-\begin{equation}
-\langle A_{0} \rangle = A_{0} \langle 1 \rangle = A_{0} ~.
-\end{equation}
-\item The high-frequency average of a constant is zero, so that
-\begin{equation}
-\{ A_{0} \} = A_{0} \{ 1 \} = 0 ~.
-\end{equation}
-\end{itemize}
+In essence, this means that (a) low-frequency (zero-subscripted) quantities can pass in and out of
+both spectral averaging operators; (b) that the high-frequency average of a constant is zero; and
+(c) that the low-frequency average of a constant is that same constant.
+The fast-time and slow-time averages of products of physical variables then take the form 
+\begin{eqnarray}
+\langle A B \rangle & = & A_{0} B_{0} + \langle A_{1} B_{1} \rangle \\
+\{ A B \} & = & A_{0} B_{1} + A_{1} B_{0} + \{ A_{1} B_{1} \}
+\end{eqnarray}
 No assumption will be made on the relative magnitudes of any quantities $A_{0}$ and $A_{1}$
-at this point -- this is spectral decomposition, not linearization as the $1$ subscript
-conventionally suggests.
+at this point -- although the $1$ subscript is conventionally used to denote linearization
+(implying that $A_{1}/A_{0} \ll 1$), that convention is not used here.  We reiterate that 
+$A_{0}$ refers to the slow timescale, low-frequency behavior of physical variable $A$,  while 
+$A_{1}$ refers to its fast timescale, high-frequency behavior.
 
-Common fluid moments associated with the distribution function $f_{s}({\bf x},{\bf v},t)$, and
+Common fluid moments associated with the distribution function $f_{s}({\bf x},{\bf v},t)$,
 which we will spectrally decompose in the manner indicated, include the following:
 \begin{eqnarray}
 n_{s} = & \int f_{s}~d^{3}{\bf v} & \mbox{~(density)} \\
@@ -90,7 +95,9 @@ n_{s} = & \int f_{s}~d^{3}{\bf v} & \mbox{~(density)} \\
 where all quantities on the left vary only with $({\bf x},t)$. 
 
 Maxwell's equations, when velocity integrals are expressed in terms of the fluid
-moments, can be seen to be linear and timescale-separable in $\rho_{s}$ and ${\bf J}_{s}$ 
+moments, can be seen to be linear 
+in $\rho_{s}$ and ${\bf J}_{s}$ 
+under timescale-separation 
 [i.e. the divergence of slow (fast) electric fields arises from slow (fast) charge 
 densities, without any mixing of timescales via products or quotients of terms that vary on both fast and 
 slow timescales, such that the relations
@@ -105,45 +112,69 @@ and
 = {1 \over \epsilon_{0}} \sum_{s} \rho_{1s}
 \end{equation}
 both independently hold].  The charge-weighted velocity integral of the kinetic equation yields a
-continuity equation
+continuity equation which is likewise linear under timescale-separation, though
+sources and sinks relevant to the fast or slow timescales introduce some subtleties -- we
+may write
 \begin{equation}
-{\partial \rho_{s} \over \partial t} + \nabla \cdot {\bf J}_{s} = \mbox{~charge sources and sinks}
+{\partial \rho_{0s} \over \partial t} + \nabla \cdot {\bf J}_{0s} = \langle \mbox{~charge sources and sinks} \rangle
 \end{equation}
-which can in principle also easily separate into fast and slow components.
-This timescale-separability offers great advantage for the Maxwell and continuity equations,
-as equations relevant to each timescale can be considered separately.  However, this 
-simplicity is not preserved by higher-order velocity moments of the kinetic equation.
-In particular, both the fluid-frame pressure (which is related to the 
-species fluid velocity ${\bf V}_{s} = {\bf J}_{s}/\rho_{s}$, a ratio of quantities that vary on both
-fast and slow timescales) and terms associated with the Lorentz force (products of charge/current
-densities and electromagnetic fields) are not easily separable into purely ``fast'' and ``slow''
+and
+\begin{equation}
+{\partial \rho_{1s} \over \partial t} + \nabla \cdot {\bf J}_{1s} = \{ \mbox{~charge sources and sinks} \}
+\end{equation}
+to preserve the linearity of these relations even without a specified form for the source and sink
+terms.  
+Unfortunately, such linearity under timescale-separation is not preserved by higher-order
+velocity moments of the kinetic equation.
+In particular, neither the species fluid velocity ${\bf V}_{s} = {\bf J}_{s}/\rho_{s}$ (a ratio of 
+quantities that vary on both fast and slow timescales), the fluid-frame species pressure (which 
+is computed relative to ${\bf V}_{s}$), 
+nor terms associated with the Lorentz force (products of charge/current
+densities and electromagnetic fields) are easily separable into purely ``fast'' and ``slow''
 components.  We have, for the fluid momentum equation,
-
 \begin{eqnarray}
 {\partial {\bf J}_{s} \over \partial t} + \nabla \cdot \left( {{\bf J}_{s} {\bf J}_{s} \over \rho_{s}} \right)
 + {q_{s} \over m_{s}} \nabla \cdot {\mathbf P}_{s} = {q_{s} \over m_{s}} [\rho_{s} {\bf E} + {\bf J}_{s}
-\times {\bf B}] \nonumber \\ 
-{} + \mbox{~current sources and sinks}
+\times {\bf B}] + \mbox{~current sources and sinks}
+\label{fluidmomentum}
 \end{eqnarray}
 which can also be written in terms of the species fluid velocity as
-
 \begin{eqnarray}
 {m_{s} \over q_{s}} \rho_{s} \left[ {\partial {\bf V}_{s} \over \partial t} +
 ({\bf V}_{s} \cdot \nabla) {\bf V}_{s} \right] + \nabla \cdot {\mathbf P}_{s} =
-\rho_{s}[{\bf E} + {\bf V}_{s} \times {\bf B}] \nonumber \\ 
-{} + \mbox{~momentum sources and sinks}
+\rho_{s}[{\bf E} + {\bf V}_{s} \times {\bf B}] + \mbox{~momentum sources and sinks}
 \end{eqnarray} 
 
-${\bf V}_{s}$ and ${\bf J}_{s}$ are two of many interrelated field quantities in the fluid system of 
-equations, and all of these quantities participate in products of two or more fields, so where best to 
-initiate the analysis of time-scale separation, e.g. at Vs, or at Js, is not particularly evident, from 
-a fluid point-of-view. However, Maxwell’s Equation, and the fluid Continuity Equation are linear in $\rho_{s}$, 
-${\bf J}_{s}$, ${\bf E}$ and ${\bf B}$, so time-scale separation in terms of these quantities is pure, 
-e.g., in these equations Jslow interacts with only rhoslow, Eslow, and Bslow, and not with rhofast, 
-Efast and Bfast. This provides a fairly strong incentive to initiate the time-scale separation 
-analysis at Js, rather than Vs, which is what we will do in this write-up. This means that the 
-product terms only occur in the fluid moment equations beyond the Continuity Equation, the first of 
-which is the momentum equation.
-
+Fundamentally, while both ${\bf J}_{s} = {\bf J}_{0s} + {\bf J}_{1s}$ and $\rho_{s} = \rho_{0s}
++ \rho_{1s}$ separate cleanly into fast and slow components (arising from their construction
+as velocity moments of a separable distribution function $f_{s} = f_{0s} + f_{1s}$), the velocity
+${\bf V}_{s} = {\bf J}_{s}/\rho_{s}$ does not.  We may expand ${\bf V}_{s}$ in the form
+\begin{equation}
+{\bf V}_{s} = {{\bf J}_{0s} + {\bf J}_{1s} \over \rho_{0s} + \rho_{1s}} =
+{{\bf J}_{0s} \over \rho_{0s}} \left( 1 - {\rho_{1s} \over \rho_{s}} \right) +
+{{\bf J}_{1s} \over \rho_{s}} =
+{{\bf J}_{0s} \over \rho_{0s}} + {{\bf J}_{1s} - {\bf J}_{0s} \rho_{1s}/\rho_{0s} \over \rho_{s}} 
+\end{equation}
+Defining an unambiguously slow-timescale quantity ${\bf V}_{0s} \equiv {\bf J}_{0s}/\rho_{0s}$
+for convenience, we then have
+\begin{equation}
+{\bf V}_{s} = {\bf V}_{0s} + {{\bf J}_{1s} - {\bf V}_{0s} \rho_{1s} \over \rho_{s}} 
+= {\bf V}_{0s} + {{\bf J}_{1s} - {\bf V}_{0s} \rho_{1s} \over \rho_{0s}}
+\left(1 - {\rho_{1s} \over \rho_{s}} \right)
+\end{equation} 
+Then, definining an unambiguously fast-timescale quantity ${\bf V}_{1s} \equiv
+({\bf J}_{1s} - {\bf V}_{0s} \rho_{1s})/\rho_{0s}$ for convenience, we have
+\begin{equation}
+{\bf V}_{s} = {\bf V}_{0s} + {\bf V}_{1s} - {\rho_{1s} {\bf V}_{1s} \over \rho_{s}}
+\end{equation} 
+whose last term is at least quadratic in fast quantities.  We have defined our new terms
+to satisfy ${\bf J}_{0s} = \rho_{0s} {\bf V}_{0s}$ and ${\bf J}_{1s} = \rho_{0s} {\bf V}_{1s}
++ \rho_{1s} {\bf V}_{0s}$, consistent with the rules for fast-time and slow-time averages
+defined in Eq.~(\ref{i1} - \ref{i2}).  Nevertheless, applying such averages
+to the fluid velocity ${\bf V}_{s}$ yields quadratic terms,
+\begin{eqnarray}
+\langle {\bf V}_{s} \rangle & = & V_{0s} - \left\langle {\rho_{1s} {\bf V}_{1s} \over \rho_{s}} \right\rangle \\
+\{ {\bf V}_{s} \} & = & {\bf V}_{1s} - \left\{ {\rho_{1s} {\bf V}_{1s} \over \rho_{s}} \right\}
+\end{eqnarray}
 
 
