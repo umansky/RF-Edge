@@ -71,8 +71,8 @@ both spectral averaging operators; (b) that the high-frequency average of a cons
 (c) that the low-frequency average of a constant is that same constant.
 The fast-time and slow-time averages of products of physical variables then take the form 
 \begin{eqnarray}
-\langle A B \rangle & = & A_{0} B_{0} + \langle A_{1} B_{1} \rangle \\
-\{ A B \} & = & A_{0} B_{1} + A_{1} B_{0} + \{ A_{1} B_{1} \}
+\langle A B \rangle & = & A_{0} B_{0} + \langle A_{1} B_{1} \rangle \label{slowprod} \\
+\{ A B \} & = & A_{0} B_{1} + A_{1} B_{0} + \{ A_{1} B_{1} \} \label{fastprod}
 \end{eqnarray}
 No assumption will be made on the relative magnitudes of any quantities $A_{0}$ and $A_{1}$
 at this point -- although the $1$ subscript is conventionally used to denote linearization
@@ -83,22 +83,27 @@ $A_{1}$ refers to its fast timescale, high-frequency behavior.
 Common fluid moments associated with the distribution function $f_{s}({\bf x},{\bf v},t)$,
 which we will spectrally decompose in the manner indicated, include the following:
 \begin{eqnarray}
-n_{s} = & \int f_{s}~d^{3}{\bf v} & \mbox{~(density)} \\
+n_{s} = & \int f_{s}~d^{3}{\bf v} & \mbox{~(density)} \label{densitymoment} \\
 \rho_{s} = & \int q_{s} f_{s}~d^{3}{\bf v} & \mbox{~(charge density)} \\
 {\bf V}_{s} = & (1/n_{s}) \int f_{s} {\bf v}~d^{3}{\bf v} & \mbox{~(fluid velocity)} \\
 {\bf J}_{s} = & \int q_{s} f_{s} {\bf v}~d^{3}{\bf v} & \mbox{~(current density)} \\
 {\mathbf p}_{s} = & \int m_{s} f_{s} {\bf v} {\bf v}~d^{3}{\bf v} & 
 \mbox{~(lab-frame pressure)} \\
 {\mathbf P}_{s} = & \int m_{s} f_{s} ({\bf v} - {\bf V}_{s})({\bf v} - {\bf V}_{s})~d^{3}{\bf v} & 
-\mbox{~(fluid-frame pressure) ~~~~~} 
+\mbox{~(fluid-frame pressure) ~~~~~} \label{ffpressuremoment} 
 \end{eqnarray}
-where all quantities on the left vary only with $({\bf x},t)$. 
+where all quantities on the left vary only with $({\bf x},t)$.  Moments which depend
+on the distribution function but not on other multiple-timescale quantities will satisfy simple 
+rules for spectral decomposition, e.g. since $f_{s} = f_{0s} + f_{1s}$ we also have $n_{s} = n_{0s} + n_{1s}, 
+\rho_{s} = \rho_{0s} + \rho_{1s}, {\bf J}_{s} = {\bf J}_{0s} + {\bf J}_{1s}$, and  
+${\mathbf p}_{s} = {\mathbf p}_{0s} + {\mathbf p}_{1s}$.  However, moments with dependence on
+multiple variables [e.g. ${\bf V}_{s}(n_{s},f_{s})$ or ${\mathbf P}_{s}(f_{s},{\bf V}_{s})$]
+will demand more complicated spectral decompositions which will be discussed shortly.
 
 Maxwell's equations, when velocity integrals are expressed in terms of the fluid
-moments, can be seen to be linear 
-in $\rho_{s}$ and ${\bf J}_{s}$ 
-under timescale-separation 
-[i.e. the divergence of slow (fast) electric fields arises from slow (fast) charge 
+moments, are timescale-separable in the fast and slow components of $\rho_{s}$, ${\bf J}_{s}$ and
+the electromagnetic fields.  By ``timescale-separable'' we mean that 
+the divergence of slow (fast) electric fields arises from slow (fast) charge 
 densities, without any mixing of timescales via products or quotients of terms that vary on both fast and 
 slow timescales, such that the relations
 
@@ -111,10 +116,10 @@ and
 \nabla \cdot {\bf E}_{1} = {1 \over \epsilon_{0}} \sum_{s} \int q_{s} f_{1s}~d^{3}{\bf v}
 = {1 \over \epsilon_{0}} \sum_{s} \rho_{1s}
 \end{equation}
-both independently hold].  The charge-weighted velocity integral of the kinetic equation yields a
-continuity equation which is likewise linear under timescale-separation, though
+both independently hold.  The charge-weighted velocity integral of the kinetic equation yields a
+continuity equation which is likewise timescale-separable, though
 sources and sinks relevant to the fast or slow timescales introduce some subtleties -- we
-may write
+may independently write
 \begin{equation}
 {\partial \rho_{0s} \over \partial t} + \nabla \cdot {\bf J}_{0s} = \langle \mbox{~charge sources and sinks} \rangle
 \end{equation}
@@ -122,33 +127,42 @@ and
 \begin{equation}
 {\partial \rho_{1s} \over \partial t} + \nabla \cdot {\bf J}_{1s} = \{ \mbox{~charge sources and sinks} \}
 \end{equation}
-to preserve the linearity of these relations even without a specified form for the source and sink
+and separately consider these relations even without a specified form for the source and sink
 terms.  
-Unfortunately, such linearity under timescale-separation is not preserved by higher-order
+Unfortunately, such timescale-separability is not preserved by higher-order
 velocity moments of the kinetic equation.
 In particular, neither the species fluid velocity ${\bf V}_{s} = {\bf J}_{s}/\rho_{s}$ (a ratio of 
 quantities that vary on both fast and slow timescales), the fluid-frame species pressure (which 
 is computed relative to ${\bf V}_{s}$), 
 nor terms associated with the Lorentz force (products of charge/current
 densities and electromagnetic fields) are easily separable into purely ``fast'' and ``slow''
-components.  We have, for the fluid momentum equation,
+components.  Considering the fluid momentum equation in its simplest form,
 \begin{eqnarray}
-{\partial {\bf J}_{s} \over \partial t} + \nabla \cdot \left( {{\bf J}_{s} {\bf J}_{s} \over \rho_{s}} \right)
-+ {q_{s} \over m_{s}} \nabla \cdot {\mathbf P}_{s} = {q_{s} \over m_{s}} [\rho_{s} {\bf E} + {\bf J}_{s}
+{\partial {\bf J}_{s} \over \partial t} 
+%+ \nabla \cdot \left( {{\bf J}_{s} {\bf J}_{s} \over \rho_{s}} \right)
++ {q_{s} \over m_{s}} \nabla \cdot {\mathbf p}_{s} = {q_{s} \over m_{s}} [\rho_{s} {\bf E} + {\bf J}_{s}
 \times {\bf B}] + \mbox{~current sources and sinks}
 \label{fluidmomentum}
 \end{eqnarray}
-which can also be written in terms of the species fluid velocity as
+we see that although the left-hand side is timescale-separable into purely slow or fast components, the
+Lorentz-force terms on the right-hand side are products and will thus have quadratic terms in
+both their fast- and slow-timescale averages [as in Eqs.~(\ref{slowprod} - \ref{fastprod}) above].  
+Further, when Eq.~(\ref{fluidmomentum}) is rewritten in terms of the species flow velocity and fluid-frame
+pressure (quantities more relevant to the study of edge and scrape-off layer transport), 
+additional product terms arise; we have
 \begin{eqnarray}
 {m_{s} \over q_{s}} \rho_{s} \left[ {\partial {\bf V}_{s} \over \partial t} +
 ({\bf V}_{s} \cdot \nabla) {\bf V}_{s} \right] + \nabla \cdot {\mathbf P}_{s} =
 \rho_{s}[{\bf E} + {\bf V}_{s} \times {\bf B}] + \mbox{~momentum sources and sinks}
 \end{eqnarray} 
+in which neither ${\bf V}_{s}$ nor ${\mathbf P}_{s}$ are cleanly timescale-separable.
+We must then carefully consider what form this momentum equation will take on the fast and slow timescales.
 
 Fundamentally, while both ${\bf J}_{s} = {\bf J}_{0s} + {\bf J}_{1s}$ and $\rho_{s} = \rho_{0s}
 + \rho_{1s}$ separate cleanly into fast and slow components (arising from their construction
 as velocity moments of a separable distribution function $f_{s} = f_{0s} + f_{1s}$), the velocity
-${\bf V}_{s} = {\bf J}_{s}/\rho_{s}$ does not.  We may expand ${\bf V}_{s}$ in the form
+${\bf V}_{s} = {\bf J}_{s}/\rho_{s}$ does not.  Nevertheless, such components can be 
+constructed by expanding ${\bf V}_{s}$ in the form
 \begin{equation}
 {\bf V}_{s} = {{\bf J}_{0s} + {\bf J}_{1s} \over \rho_{0s} + \rho_{1s}} =
 {{\bf J}_{0s} \over \rho_{0s}} \left( 1 - {\rho_{1s} \over \rho_{s}} \right) +
@@ -162,8 +176,8 @@ for convenience, we then have
 = {\bf V}_{0s} + {{\bf J}_{1s} - {\bf V}_{0s} \rho_{1s} \over \rho_{0s}}
 \left(1 - {\rho_{1s} \over \rho_{s}} \right)
 \end{equation} 
-Then, definining an unambiguously fast-timescale quantity ${\bf V}_{1s} \equiv
-({\bf J}_{1s} - {\bf V}_{0s} \rho_{1s})/\rho_{0s}$ for convenience, we have
+Then, similarly defining an unambiguously fast-timescale quantity ${\bf V}_{1s} \equiv
+({\bf J}_{1s} - {\bf V}_{0s} \rho_{1s})/\rho_{0s}$ for convenience, we may write 
 \begin{equation}
 {\bf V}_{s} = {\bf V}_{0s} + {\bf V}_{1s} - {\rho_{1s} {\bf V}_{1s} \over \rho_{s}}
 \end{equation} 
@@ -171,10 +185,42 @@ whose last term is at least quadratic in fast quantities.  We have defined our n
 to satisfy ${\bf J}_{0s} = \rho_{0s} {\bf V}_{0s}$ and ${\bf J}_{1s} = \rho_{0s} {\bf V}_{1s}
 + \rho_{1s} {\bf V}_{0s}$, consistent with the rules for fast-time and slow-time averages
 defined in Eq.~(\ref{i1} - \ref{i2}).  Nevertheless, applying such averages
-to the fluid velocity ${\bf V}_{s}$ yields quadratic terms,
+to the fluid velocity ${\bf V}_{s}$ also yields quadratic terms,
 \begin{eqnarray}
-\langle {\bf V}_{s} \rangle & = & V_{0s} - \left\langle {\rho_{1s} {\bf V}_{1s} \over \rho_{s}} \right\rangle \\
-\{ {\bf V}_{s} \} & = & {\bf V}_{1s} - \left\{ {\rho_{1s} {\bf V}_{1s} \over \rho_{s}} \right\}
+\langle {\bf V}_{s} \rangle & = & {\bf V}_{0s} - \left\langle {\rho_{1s} {\bf V}_{1s} \over \rho_{s}} \right\rangle \label{V0eqn} \\
+\{ {\bf V}_{s} \} & = & {\bf V}_{1s} - \left\{ {\rho_{1s} {\bf V}_{1s} \over \rho_{s}} \right\} \label{V1eqn}
 \end{eqnarray}
+on both fast and slow timescales.  Unlike ${\bf J}_{0s}$ and ${\bf J}_{1s}$, which respectively
+describe the entirety of species
+currents on slow and fast timescales, the velocities ${\bf V}_{0s}$ and ${\bf V}_{1s}$ describe only a 
+portion of the species flow velocity on these timescales.  Nevertheless, such notation for
+the velocity simplifies the deriviation of the ponderomotive force terms tremendously.
 
-
+Slow-timescale and fast-timescale versions of the fluid-frame pressure tensor can also be constructed,
+in the same manner as is done in Eqs.~(\ref{V0eqn} - \ref{V1eqn}) for the species velocity.
+Expanding the relation ${\mathbf P}_{s} = {\mathbf p}_{s} - (m_{s}/q_{s}) \rho_{s} {\mathbf V}_{s}
+{\mathbf V}_{s}$ [which can be obtained by manipulating Eqs.~(\ref{densitymoment} - \ref{ffpressuremoment})],
+it can be shown that
+\begin{equation}
+\langle {\mathbf P}_{s} \rangle = {\mathbf P}_{0s} 
+- {m_{s} \over q_{s}} \rho_{0s}^{2} \left\langle {{\bf V}_{1s} {\bf V}_{1s} \over \rho_{s}} \right\rangle
+\end{equation}
+and
+\begin{equation}
+\left\{ {\mathbf P}_{s} \right\} = {\mathbf P}_{1s}
+- {m_{s} \over q_{s}} \rho_{0s}^{2} \left\{ {{\bf V}_{1s} {\bf V}_{1s} \over \rho_{s}} \right\}
+\end{equation}
+wherein unambiguously slow-timescale and fast-timescale fluid-frame pressure quantities have been defined,
+\begin{eqnarray}
+{\mathbf P}_{0s} & \equiv & {\mathbf p}_{0s} - {m_{s} \over q_{s}} \rho_{0s} {\bf V}_{0s} {\bf V}_{0s} \\
+{\mathbf P}_{1s} & \equiv & {\mathbf p}_{1s} - {m_{s} \over q_{s}} [
+\rho_{1s} {\bf V}_{0s} {\bf V}_{0s} + \rho_{0s} {\bf V}_{1s} {\bf V}_{0s} + \rho_{0s} {\bf V}_{0s} {\bf V}_{1s}]
+\end{eqnarray}
+Analogously to ${\bf V}_{0s}$ and ${\bf V}_{1s}$, these pressure tensors describe only a portion of the full
+species pressures on the slow and fast timescales, which can be written respectively as
+\begin{eqnarray}
+\langle {\mathbf P}_{s} \rangle & = & {\mathbf p}_{0s} - {m_{s} \over q_{s}} \langle \rho_{s} {\bf V}_{s} {\bf V}_{s} \rangle \\
+\{ {\mathbf P}_{s} \} & = & {\mathbf p}_{1s} - {m_{s} \over q_{s}} \{ \rho_{s} {\bf V}_{s} {\bf V}_{s}
+\}
+\end{eqnarray}
+using the relation between ${\mathbf P}_{s}$ and ${\mathbf p}_{s}$ above.
